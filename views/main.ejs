@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Halmgtalk - speak Halmg Keln</title>
+<meta name="description" content="Talk with each other. Use Halmg Keln."/>
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/bower_components/angularjs/angular.min.js"></script>
+<script src="/bower_components/angular-socket-io/socket.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/app.js"></script>
+</head>
+<body>
+<div class="header"><span class="title">HalmgTalk</span></div>
+<div class="content" ng-app>
+<% if (user){ %>
+<div class="user">
+<label>Skype: </label>
+<input type="text" name="skype">
+<label>Name: </label>
+<input type="text" name="fio">
+<label>Online: </label>
+<input type="checkbox" name="online">
+</div>
+<% } %>
+<div class="list" ng-controller="ListController">
+<ul>
+<li class="item" ng-repeat="item in items">
+	<span class="skype">
+		{{item.skype}}
+	</span>
+	<span class="name">
+		{{item.fio}}
+	</span>
+</li>
+</ul>
+</div>
+</div>
+</body>
+</html>
