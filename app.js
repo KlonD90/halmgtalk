@@ -46,17 +46,20 @@ app.get('/',function(req, res){
 		});
 	}
 	else
-		res.render('main');
+		res.render('main', {user: false});
 });
 
 app.get('/register', function(req, res) {
-	res.render('register', { });
+	if (req.session.passport && req.session.passport.user)
+		res.render('register', {user: true });
+	else
+		res.render('register', {user: false });
 });
 
 app.post('/register', function(req, res) {
 	User.register(new User({ username : req.body.username }), req.body.password, function(err, user) {
 		if (err) {
-			return res.render('register', { error : err.message });
+			return res.render('register', { error : err.message, user: false });
 		}
 		passport.authenticate('local')(req, res, function () {
 			res.redirect('/login');
@@ -65,7 +68,10 @@ app.post('/register', function(req, res) {
 });
 
 app.get('/login', function(req, res) {
-	res.render('login', { user : req.user });
+	if (req.session.passport && req.session.passport.user)
+		res.render('login', {user: true });
+	else
+		res.render('login', {user: false });
 });
 
 app.post('/login', passport.authenticate('local'), function(req, res) {

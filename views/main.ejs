@@ -4,15 +4,25 @@
 <title>Halmgtalk - speak Halmg Keln</title>
 <meta name="description" content="Talk with each other. Use Halmg Keln."/>
 <link rel="stylesheet" type="text/css" href="/css/main.css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
 <script src="/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="/bower_components/angularjs/angular.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-<div class="header"><span class="title">HalmgTalk</span></div>
+<div class="header">
+	<a class="title" href="/">HalmgTalk</a>
+	<% if (user){ %>
+	<a class="logout" href="/logout">logout</a>
+	<% } else { %>
+	<a class="reg" href="/register">register</a>
+	<a class="log" href="/login">login</a>
+	<% } %>
+</div>
 <div class="content">
 <% if (user){ %>
 <div class="user">
+<p>Enter your contact data and check online if u wanna talk.</p>
 <label>Skype: </label>
 <input type="text" name="skype" value="<%= user.skype ? user.skype : '' %>">
 <label>Name: </label>
@@ -25,10 +35,10 @@
 <ul ng-app="halmgtalk" ng-controller="ListController">
 <li class="item" ng-repeat="item in items">
 	<span class="skype">
-		{{item.skype}}
+		Skype: {{item.skype}}
 	</span>
 	<span class="name">
-		{{item.fio}}
+		Name: {{item.fio}}
 	</span>
 </li>
 </ul>

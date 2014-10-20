@@ -1,0 +1,53 @@
+/*reset*/
+* {margin: 0; padding: 0;}
+
+body{
+	font-family: 'Open Sans', sans-serif;
+}
+
+.header{
+	border-bottom: 1px solid black;
+	padding: 10px;
+	margin-bottom: 20px;
+}
+.header .title{
+	font-size: 26px;
+	font-weight: 700;
+	color: #000;
+	text-decoration: none;
+}
+
+.header .reg, .header .log, .header .logout{
+	font-size: 16px;
+	font-weight: 700;
+	color: #000;
+}
+
+.content {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 20px;
+}
+
+.user {
+	padding: 5px;
+	margin-bottom: 10px;	
+}
+
+.user input[type="text"]{
+	width: 150px;
+	border-radius: 5px;
+}
+
+.list .item{
+	display: block;
+}
+
+.item .skype{
+	float: left;
+}
+
+.item .name{
+	float: right;
+}
+
