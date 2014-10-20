@@ -8,7 +8,6 @@
 <script src="/bower_components/angularjs/angular.min.js"></script>
 <script src="/bower_components/angular-socket-io/socket.js"></script>
 <script src="/socket.io/socket.io.js"></script>
-<script src="/js/app.js"></script>
 </head>
 <body>
 <div class="header"><span class="title">HalmgTalk</span></div>
@@ -16,11 +15,12 @@
 <% if (user){ %>
 <div class="user">
 <label>Skype: </label>
-<input type="text" name="skype">
+<input type="text" name="skype" value="<%= user.skype ? user.skype : '' %>">
 <label>Name: </label>
-<input type="text" name="fio">
+<input type="text" name="fio" value="<%= user.fio ? user.fio : '' %>">
 <label>Online: </label>
-<input type="checkbox" name="online">
+
+<input type="checkbox" name="online" <% if (user.online){ %> checked <% } %> >
 </div>
 <% } %>
 <div class="list" ng-controller="ListController">
@@ -36,5 +36,6 @@
 </ul>
 </div>
 </div>
+<script src="/js/app.js"></script>
 </body>
 </html>

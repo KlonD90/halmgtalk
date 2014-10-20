@@ -35,7 +35,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/',function(req, res){
-	res.render('main');
+	if (req.session.passport && req.session.passport.user)
+	{
+		User.findOne({username: req.session.passport.user}, function(err, user){
+			res.render('main', {user: user});
+		});
+	}
+	else
+		res.render('main');
 });
 
 app.get('/register', function(req, res) {
@@ -64,6 +71,29 @@ app.post('/login', passport.authenticate('local'), function(req, res) {
 app.get('/logout', function(req, res) {
 	req.logout();
 	res.redirect('/');
+});
+
+app.post('/update', function(req,res){
+	var status = req.body.online?true:false;
+	var fio = req.body.fio+'';
+	var skype = req.body.skype+'';
+	if (!req.session.passport || !req.session.passsport.user)
+	{
+		return void res.status(403).end();	
+	}
+	User.findOne({username: req.session.passport.user}, function(err, user){
+		user.online = status;
+		user.fio = fio;
+		user.skype = skype;
+		user.save(function(){
+		});
+	});
+});
+
+io.on('connection', function(socket){
+	User.find({online: true}, function(err, users){
+		socket.emit('init', users);
+	});
 });
 
 http.listen(3000);
