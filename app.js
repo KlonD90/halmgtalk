@@ -12,6 +12,10 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var bodyParser = require('body-parser');
 
+var mapUser = function(user){
+	return {skype: user.skype, fio: user.fio};
+};
+
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -74,25 +78,30 @@ app.get('/logout', function(req, res) {
 });
 
 app.post('/update', function(req,res){
-	var status = req.body.online?true:false;
+	var online = +req.body.online?true:false;
 	var fio = req.body.fio+'';
 	var skype = req.body.skype+'';
-	if (!req.session.passport || !req.session.passsport.user)
+	if (!req.session.passport || !req.session.passport.user)
 	{
 		return void res.status(403).end();	
 	}
 	User.findOne({username: req.session.passport.user}, function(err, user){
-		user.online = status;
+		user.online = online;
 		user.fio = fio;
 		user.skype = skype;
 		user.save(function(){
+			User.find({online: true}, function(err, users){
+				io.emit('update', users.map(mapUser));
+				res.send('updated');
+			});
+			
 		});
 	});
 });
 
 io.on('connection', function(socket){
 	User.find({online: true}, function(err, users){
-		socket.emit('init', users);
+		socket.emit('init', users.map(mapUser));
 	});
 });
 

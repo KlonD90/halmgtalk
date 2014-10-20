@@ -6,12 +6,11 @@
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <script src="/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="/bower_components/angularjs/angular.min.js"></script>
-<script src="/bower_components/angular-socket-io/socket.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
 <div class="header"><span class="title">HalmgTalk</span></div>
-<div class="content" ng-app>
+<div class="content">
 <% if (user){ %>
 <div class="user">
 <label>Skype: </label>
@@ -19,12 +18,11 @@
 <label>Name: </label>
 <input type="text" name="fio" value="<%= user.fio ? user.fio : '' %>">
 <label>Online: </label>
-
 <input type="checkbox" name="online" <% if (user.online){ %> checked <% } %> >
 </div>
 <% } %>
-<div class="list" ng-controller="ListController">
-<ul>
+<div class="list">
+<ul ng-app="halmgtalk" ng-controller="ListController">
 <li class="item" ng-repeat="item in items">
 	<span class="skype">
 		{{item.skype}}
