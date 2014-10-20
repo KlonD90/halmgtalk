@@ -1,0 +1,31 @@
+{
+  "name": "halmgtalk",
+  "version": "1.0.0",
+  "description": "Use Halmg Keln to talk",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.9.0",
+    "connect": "^2.27.0",
+    "ejs": "^1.0.0",
+    "express": "^4.9.8",
+    "express-session": "^1.9.0",
+    "express-sessions": "^1.0.5",
+    "mongoose": "^3.8.17",
+    "passport": "^0.2.1",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^1.0.0",
+    "session-mongoose": "^0.5.2",
+    "socket.io": "^1.1.0",
+    "vow": "^0.4.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "halmg",
+    "keln"
+  ],
+  "author": "KlonD90",
+  "license": "MIT"
+}
