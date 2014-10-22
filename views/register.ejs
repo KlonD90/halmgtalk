@@ -3,6 +3,9 @@
 <head>
 <title>Halmgtalk - speak Halmg Keln</title>
 <meta name="description" content="Talk with each other. Use Halmg Keln."/>
+<meta name="HandheldFriendly" content="true">
+<meta content="300" name="MobileOptimized">
+<meta name="viewport" content="width=device-width , initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <script src="/js/app.js"></script>
@@ -20,10 +23,14 @@
 <div class="content">
 <div class="form">
 <form class="register" action="/register" method="POST">
+<div>
 <label>Login: </label>
 <input type="text" name="username">
+</div>
+<div>
 <label>Password: </label>
 <input type="text" name="password">
+</div>
 <button>Register</button>
 </form>
 </div>

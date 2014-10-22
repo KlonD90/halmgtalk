@@ -21,8 +21,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 mongoose.connect('mongodb://localhost/halmgtalk');
-
-app.use(session({
+var sessionMiddleware = session({
 	secret: 'halmgtangch',
 	cookie: { maxAge: 2628000000 },
 	store: new (require('express-sessions'))({
@@ -30,7 +29,10 @@ app.use(session({
 		instance: mongoose, // optional
 		expire: 86400 // optional
 	})
-}));
+});
+io.use(function(socket, next){ sessionMiddleware(socket.request, socket.request.res, next); });
+app.use(sessionMiddleware);
+
 
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
@@ -62,16 +64,16 @@ app.post('/register', function(req, res) {
 			return res.render('register', { error : err.message, user: false });
 		}
 		passport.authenticate('local')(req, res, function () {
-			res.redirect('/login');
+			res.redirect('/login?usecred=1');
 		});
 	});
 });
 
 app.get('/login', function(req, res) {
 	if (req.session.passport && req.session.passport.user)
-		res.render('login', {user: true });
+		res.render('login', {user: true, cred: req.query.usecred });
 	else
-		res.render('login', {user: false });
+		res.render('login', {user: false, cred: req.query.usecred });
 });
 
 app.post('/login', passport.authenticate('local'), function(req, res) {
@@ -105,10 +107,50 @@ app.post('/update', function(req,res){
 	});
 });
 
+var chat = [];
+var pushChat = function(msg){
+	if (chat.length > 20)
+	{
+		chat.shift();
+		chat.push(msg);
+	}
+	else
+		chat.push(msg);
+};
 io.on('connection', function(socket){
 	User.find({online: true}, function(err, users){
 		socket.emit('init', users.map(mapUser));
 	});
+	socket.emit('chatstart', chat);
+	socket.on('chat', function(message){
+		if (!message)
+			return;
+		if (socket.request && socket.request.session && socket.request.session.passport && socket.request.session.passport.user )
+		{
+			var msg = {
+				nick: socket.request.session.passport.user,
+				text: message 
+			};
+			pushChat(msg);
+			io.emit('chat', msg);
+		}
+	});
+	socket.on('disconnect', function(){
+		if (socket.request.session && socket.request.session.passport && socket.request.session.passport.user)
+		{
+			User.findOne({username: socket.request.session.passport.user}, function(err, user){
+				if (user.online){
+					user.online = false;
+					user.save(function(){ 
+						User.find({online: true}, function(err, users){
+							io.emit('update', users.map(mapUser));
+						});
+					});
+				}
+			});
+		}
+	});
 });
+
 
 http.listen(3000);

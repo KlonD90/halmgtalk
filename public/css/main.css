@@ -10,6 +10,11 @@ body{
 	padding: 10px;
 	margin-bottom: 20px;
 }
+
+.list table { width: 100%}
+
+.list table th {text-align: left;}
+
 .header .title{
 	font-size: 26px;
 	font-weight: 700;
@@ -21,6 +26,8 @@ body{
 	font-size: 16px;
 	font-weight: 700;
 	color: #000;
+	float: right;
+	margin-right: 20px;
 }
 
 .content {
@@ -40,9 +47,10 @@ body{
 }
 
 .list .item{
-	display: block;
+/*	display: block;
+*/
 }
-
+/*
 .item .skype{
 	float: left;
 }
@@ -50,4 +58,41 @@ body{
 .item .name{
 	float: right;
 }
+*/
 
+.chat .feed {
+	max-height: 300px;
+	overflow-y:scroll;
+	width: 300px;
+	border: 1px solid #ccc;
+}
+
+.chat .add input {
+	width: 200px;
+}
+
+.chat .add button {
+	width: 90px;
+}
+
+.chat__title{
+	font-weight: 700;
+}
+
+.chat .nick{
+	font-style: italic;
+}
+
+.chat, .list {
+	display: inline-block;
+	vertical-algin: top;
+}
+
+.list {
+	max-width: 800px;
+	min-width: 300px;
+}
+
+.chat {
+	float: right;
+}

@@ -8,6 +8,9 @@
 <script src="/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="/bower_components/angularjs/angular.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
+<meta name="HandheldFriendly" content="true">
+<meta content="300" name="MobileOptimized">
+<meta name="viewport" content="width=device-width , initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 </head>
 <body>
 <div class="header">
@@ -31,17 +34,29 @@
 <input type="checkbox" name="online" <% if (user.online){ %> checked <% } %> >
 </div>
 <% } %>
+<div class="chat">
+	<span class="chat__title">Chat</span>
+	<div class="feed"></div>
+	<% if (user){ %>
+		<div class="add"><input type="text"> <button>send message</button></div>
+	<% } %>	
+</div>
 <div class="list">
-<ul ng-app="halmgtalk" ng-controller="ListController">
-<li class="item" ng-repeat="item in items">
-	<span class="skype">
-		Skype: {{item.skype}}
-	</span>
-	<span class="name">
-		Name: {{item.fio}}
-	</span>
-</li>
-</ul>
+<span class="description">Список тех кто прямо сейчас хочет поговорить по калмыцки.<% if (!user){ %> Зарегистрируйтесь и авторизуйтесь, чтобы внести себя в этот список. <% } %></span>
+<table ng-app="halmgtalk" ng-controller="ListController">
+<tr>
+<th>Skype</th>
+<th>Name</th>
+</tr>
+<tr class="item" ng-repeat="item in items">
+	<td class="skype">
+		{{item.skype}}
+	</td>
+	<td class="name">
+		{{item.fio}}
+	</td>
+</tr>
+</table>
 </div>
 </div>
 <script src="/js/app.js"></script>
